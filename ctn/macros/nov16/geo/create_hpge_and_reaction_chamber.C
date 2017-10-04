@@ -1,3 +1,11 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////																										
+////							--- Simulation of the Lisbon Nov-2016 setup ---								
+////
+////		This macro recreates HPGe detector at 90º w.r.t. z axis 
+////		and the Reaction Chamber in the center (LaboratoryRS)
+////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
 #include <iostream>
@@ -36,7 +44,7 @@ void create_geo(const char* geoTag = "test")
 {
 	fGlobalTrans->SetTranslation(0.0,0.0,0.0);
 
-	// -------   Load media from media file   ----------------------------------- OK
+	// -------   Load media from media file   ----------------------------------- 
 	FairGeoLoader*    geoLoad = new FairGeoLoader("TGeo","FairGeoLoader");
 	FairGeoInterface* geoFace = geoLoad->getGeoInterface();
 	TString geoPath = gSystem->Getenv("VMCWORKDIR");
@@ -48,14 +56,14 @@ void create_geo(const char* geoTag = "test")
 
 
 
-	// -------   Geometry file name (output)   ----------------------------------OK
+	// -------   Geometry file name (output)   ----------------------------------
 	TString geoFileName = geoPath + "/ctn/geometry/HPGedetector_";
 	geoFileName = geoFileName + geoTag + ".geo.root";
 	// --------------------------------------------------------------------------
 
 
 
-	// -----------------   Get and create the required media    ----------------- OK
+	// -----------------   Get and create the required media    ----------------- 
 	FairGeoMedia* gGeoMedia = geoFace->getMedia(); 
 	FairGeoBuilder* gGeoBuild = geoLoad->getGeoBuilder(); 
 
@@ -99,7 +107,7 @@ void create_geo(const char* geoTag = "test")
 
 
 
-	// --------------   Create geometry and top volume  ------------------------- OK
+	// --------------   Create geometry and top volume  ------------------------- 
 	gGeoMan = (TGeoManager*)gROOT->FindObject("FAIRGeom");
 	gGeoMan->SetName("HPGEgeom");
 	gTop = new TGeoVolumeAssembly("TOP");
@@ -112,7 +120,7 @@ void create_geo(const char* geoTag = "test")
 	ConstructGeometry(pMedVac, pMedAl, pMedSteel, pMedGe, pMedLi, pMedAir); 	
 
 
-	// ---------------   Finish   ----------------------------------------------- OK
+	// ---------------   Finish   ----------------------------------------------- 
 	gGeoMan->CloseGeometry();
 	gGeoMan->CheckOverlaps(0.001);
 	gGeoMan->PrintOverlaps();
@@ -221,8 +229,8 @@ void ConstructGeometry(TGeoMedium *pMedVac, TGeoMedium *pMedAl, TGeoMedium *pMed
 
 	// ----------------------------------------------
 	// detector at 90 degrees
-	TGeoRotation *rot     = new TGeoRotation("rot",90,-90,0);//0,180,0
-	TGeoCombiTrans *comb = new TGeoCombiTrans("comb",-13.295,0,0,rot);//,0,0,-13.295
+	TGeoRotation *rot     = new TGeoRotation("rot",90,-90,0);
+	TGeoCombiTrans *comb = new TGeoCombiTrans("comb",-13.295,0,0,rot);
 	pWorld->AddNode(main_tube,1,comb); 
 	// ----------------------------------------------
 	
@@ -327,8 +335,6 @@ TGeoCombiTrans* GetGlobalPosition(TGeoCombiTrans *fRef)
       pRot->SetMatrix(fRotable);
       TGeoCombiTrans *pTmp = new TGeoCombiTrans(*fGlobalTrans,*pRot);
       
-      // ne peut pas etre applique ici
-      // il faut differencier trans et rot dans la multi.
       TGeoRotation rot_id;
       rot_id.SetAngles(0.0,0.0,0.0);
       
