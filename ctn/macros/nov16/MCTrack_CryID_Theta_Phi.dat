@@ -1,5 +1,9 @@
-
-Angles of the Crystals (both Petals) degrees!!
+/////////////////////////////////////////////////////////////////////////////
+///
+///		MCTrack Angles of the Crystals (both Petals) degrees!!
+///		(I used the macro checkR_CryId_angles.C to calculate them)
+///
+/////////////////////////////////////////////////////////////////////////////
 
 Crystal_ID    Theta angle       Phi angle
 1				113.6				2.551

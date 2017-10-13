@@ -82,9 +82,12 @@ void checkR_AngularCorrelations() {
 	TH1F* h8_Cal_180 = new TH1F("h8_Cal_180","Energy of Petal around 180º",2000,0,13.);
 	TH2F* h6_Cal     = new TH2F("h6_Cal","Theta vs Energy Petals", 2000,-3.2,3.2,2000,0,13.);
 	TH2F* h7_Cal     = new TH2F("h7_Cal","Phi vs Energy Petals", 2000,-3.6,3.6,2000,0,13.);
-	TH2F* h9_Cal     = new TH2F("h_9_Cal","Theta vs Phi", 720,0.,3.6,720,-3.6,3.6);	
-	TH2F* h9_Cal_90  = new TH2F("h_9_Cal_90","Theta vs Phi (90)", 720,0.,3.6,720,-3.6,3.6);	
-	TH2F* h9_Cal_180 = new TH2F("h_9_Cal_180","Theta vs Phi (180)", 720,0.,3.6,720,-3.6,3.6);	
+	TH2F* h9_Cal     = new TH2F("h9_Cal","Theta vs Phi", 1800,0.,3.6,3600,-3.6,3.6);// the bins that agree on the Crystal Resoltuion are:
+																					// bin_Theta=1800 Theta [0.,3.14]
+																					// bin_Phi=3600   Phi [-3.14,3.14]
+	
+	TH2F* h9_Cal_90  = new TH2F("h9_Cal_90","Theta vs Phi (90)", 720,0.,3.6,720,-3.6,3.6);	
+	TH2F* h9_Cal_180 = new TH2F("h9_Cal_180","Theta vs Phi (180)", 720,0.,3.6,720,-3.6,3.6);	
 	
 	TH1F* h_alpha_W   = new TH1F("h_alpha_W","Reconstructed Angle between primary photons",200,0.,3.6);
 	TH1F* h_alpha_MC  = new TH1F("h_alpha_MC","MCTrack Reconstructed Angle",200,0.,3.6);
@@ -394,7 +397,7 @@ void checkR_AngularCorrelations() {
 			
          }
 	 	}
-		
+	}	
 
 		//if(MCtracksPerEvent)     delete[] track;
 		if(hpgeHitsPerEvent)     delete[] hpgeHit;
@@ -403,7 +406,7 @@ void checkR_AngularCorrelations() {
 		if(caloHitsPerEvent)     delete[] caloHit;
 		//if(crystalPointPerEvent) delete[] crystalPoint;
 
-	}
+	
 	
 	}
 	// END LOOP IN THE EVENTS---------------------------------------------------------
