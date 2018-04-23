@@ -103,19 +103,19 @@ void checkResults() {
   char inputFile[250] = "outsim.root";  //change root file
   TFile *file1 = TFile::Open(inputFile);
   //READING TREE
-  TTree* tree = (TTree*)file1->Get("ensartree");
+  TTree* tree = (TTree*)file1->Get("ensartree");//ensartree
   
   //If you are studying the Angular Correlations in gammas
   //Choose one option for these energy limits:
   //	1- if you want analyze Si-12900 cascade
   //	2- if you want analyze Co-60 cascade
   //	3- if you are not analyzing any cascade
-  Int_t option=2;
+  Int_t option=1;
   
   //Change the maximum energy (MeV), examples:
   //	Si-12900 cascade(12.9MeV): maxE=13.;
   //	Co-60 cascade(2.504MeV): maxE=3.;
-  Double_t maxE = 3.0;
+  Double_t maxE = 13.0;
   
   //Choose the type of analysis that you want:
   //	-Detectors Responses (DET_RESPONSE = true)
@@ -225,11 +225,11 @@ void checkResults() {
   
   
   //----   MCTrack (input)   -------------------------------------------------------
-  TClonesArray* MCTrackCA;
-  EnsarMCTrack** track;
-  MCTrackCA = new TClonesArray("EnsarMCTrack",5);
-  TBranch *branchMCTrack = tree ->GetBranch("MCTrack");
-  branchMCTrack->SetAddress(&MCTrackCA);
+  //TClonesArray* MCTrackCA;
+  //EnsarMCTrack** track;
+  //MCTrackCA = new TClonesArray("EnsarMCTrack",5);
+  //TBranch *branchMCTrack = tree ->GetBranch("MCTrack");
+  //branchMCTrack->SetAddress(&MCTrackCA);
   
   //----- HPGe detector--------------//
   
@@ -241,11 +241,11 @@ void checkResults() {
   branchEnsarHPGeDetHit->SetAddress(&hpgeHitCA );
   
   //HPGe Points
-  TClonesArray* hpgePointCA;
-  EnsarHPGeDetPoint** hpgePoint;
-  hpgePointCA = new TClonesArray("EnsarHPGeDetPoint",5);
-  TBranch *branchEnsarHPGeDetPoint = tree ->GetBranch("HPGeDetPoint");
-  branchEnsarHPGeDetPoint->SetAddress(&hpgePointCA );
+  //TClonesArray* hpgePointCA;
+  //EnsarHPGeDetPoint** hpgePoint;
+  //hpgePointCA = new TClonesArray("EnsarHPGeDetPoint",5);
+  //TBranch *branchEnsarHPGeDetPoint = tree ->GetBranch("HPGeDetPoint");
+  //branchEnsarHPGeDetPoint->SetAddress(&hpgePointCA );
   
   
   //----- CALIFA detector--------------//
@@ -290,20 +290,20 @@ void checkResults() {
     energy = 0.;
     tree->GetEvent(i);
     
-    MCtracksPerEvent     = MCTrackCA->GetEntries();
+    //MCtracksPerEvent     = MCTrackCA->GetEntries();
     hpgeHitsPerEvent     = hpgeHitCA->GetEntries();
-    hpgePointsPerEvent   = hpgePointCA->GetEntries();
+    //hpgePointsPerEvent   = hpgePointCA->GetEntries();
     crystalHitsPerEvent  = crystalHitCA->GetEntries();
     caloHitsPerEvent     = caloHitCA->GetEntries();
     crystalPointPerEvent = crystalPointCA->GetEntries();
     
-    if(MCtracksPerEvent>0) {
+    /*if(MCtracksPerEvent>0) {
       track = new EnsarMCTrack*[MCtracksPerEvent];
       for(Int_t j=0;j<MCtracksPerEvent;j++){
 	track[j] = new EnsarMCTrack;
 	track[j] = (EnsarMCTrack*) MCTrackCA->At(j);
       }
-    }
+    }*/
     if(hpgeHitsPerEvent>0) {
       hpgeHit = new EnsarHPGeDetHit*[hpgeHitsPerEvent];
       for(Int_t j=0;j<hpgeHitsPerEvent;j++){
@@ -311,13 +311,13 @@ void checkResults() {
 	hpgeHit[j] = (EnsarHPGeDetHit*) hpgeHitCA->At(j);
       }
     }
-    if(hpgePointsPerEvent>0) {
+    /*if(hpgePointsPerEvent>0) {
       hpgePoint = new EnsarHPGeDetPoint*[hpgePointsPerEvent];
       for(Int_t j=0;j<hpgePointsPerEvent;j++){
 	hpgePoint[j] = new EnsarHPGeDetPoint;
 	hpgePoint[j] = (EnsarHPGeDetPoint*) hpgePointCA->At(j);
       }
-    }
+    }*/
     if(crystalHitsPerEvent>0) {
       crystalHit = new R3BCaloCrystalHitSim*[crystalHitsPerEvent];
       for(Int_t j=0;j<crystalHitsPerEvent;j++){
@@ -344,7 +344,7 @@ void checkResults() {
     if(DET_RESPONSE){
       
       //LOOP in MC mother tracks ----
-      for(Int_t h=0;h<MCtracksPerEvent;h++){
+      /*for(Int_t h=0;h<MCtracksPerEvent;h++){
 	if(track[h]->GetMotherId()<0) { //Primary Particle is MotherId=-1
 	  h1->Fill(track[h]->GetPdgCode());
 	  h2->Fill(track[h]->GetEnergy()*1000);//MeV
@@ -365,7 +365,7 @@ void checkResults() {
 	  hxyz_Ge->Fill(X1,X2,X3);
 	  hxyz_both->Fill(X1,X2,X3);
 	}
-      }
+      }*/
       
       
       //LOOP in HPGe Hits ----
@@ -387,6 +387,7 @@ void checkResults() {
 	h1_Cal->Fill(caloHit[h]->GetEnergy()*1000); //MeV
 	h2_Cal->Fill(caloHit[h]->GetTheta());	    //rad
 	h3_Cal->Fill(caloHit[h]->GetPhi());	    	//rad
+
       }
       
       
@@ -398,13 +399,13 @@ void checkResults() {
 	Z=crystalPoint[h]->GetZIn();
 	hxz_Point->Fill(X,Z);
 	hxyz_Point->Fill(X,Y,Z);
-	hxyz_both->Fill(X,Y,Z);
+	//hxyz_both->Fill(X,Y,Z);
       }
       
     }//END analysis of the Destectors Response -----------------------------------------------------------
     
     
-    
+    /*
     //ANALYSIS of the Angular Correlations in gammas -----------------------------------------------------
     if(ANG_CORRELATIONS){
       
@@ -579,19 +580,19 @@ void checkResults() {
       }
       
     }//END analysis Angles Crystals ----------------------------------------------------------------
+    */
     
-    
-    if(MCtracksPerEvent)     delete[] track;
+    //if(MCtracksPerEvent)     delete[] track;
     if(hpgeHitsPerEvent)     delete[] hpgeHit;
-    if(hpgePointsPerEvent)   delete[] hpgePoint;
+    //if(hpgePointsPerEvent)   delete[] hpgePoint;
     if(crystalHitsPerEvent)  delete[] crystalHit;
     if(caloHitsPerEvent)     delete[] caloHit;
-    if(crystalPointPerEvent) delete[] crystalPoint;
+    //if(crystalPointPerEvent) delete[] crystalPoint;
     
   }
   // END LOOP IN THE EVENTS----------------------------------------------------------------------------------------------------
   
-  if(CRY_ANGLES){
+  /*if(CRY_ANGLES){
     //Read File CrystalId & Theta,Phi of CaloHit
     ifstream *File = new ifstream("/home/fpddv1/elisabet.galiana/Escritorio/ENSARRoot/EnsarRoot_source/ctn/macros/nov16/Calo_CryID_Theta_Phi.dat");
     
@@ -612,13 +613,13 @@ void checkResults() {
     //GRAPH
     gr1 = new TGraph(nLevel,CryId_array,Theta_Calo_array);
     gr2 = new TGraph(nLevel,CryId_array,Phi_Calo_array);
-  }
+  }*/
   
   // HISTOGRAMS---------------------------------------------------------------------
   
   if(DET_RESPONSE){
     //MCTrack-------------
-    TCanvas* c1 = new TCanvas("MCTrack","MCTrack",0,0,400,800);
+    /*TCanvas* c1 = new TCanvas("MCTrack","MCTrack",0,0,400,800);
     c1->Divide(1,2);
     c1->SetFillColor(0);
     c1->SetFrameFillColor(0);
@@ -738,29 +739,29 @@ void checkResults() {
     h3_Cal->Draw();
     h3_Cal->SetLineColor(13);
     h3_Cal->GetXaxis()->SetTitle("Calo Phi (rad)");
-    h3_Cal->GetYaxis()->SetTitle("Counts");
+    h3_Cal->GetYaxis()->SetTitle("Counts");*/
     
     //Crystal Point
     TCanvas* c8 = new TCanvas("Collides 2D Petals","Collides 2D (x,z) ",0,0,400,800);
     c8->SetFillColor(0);
     c8->SetFrameFillColor(0);
-    hxz_Point-> Draw("colz");
+    hxz_Point-> Draw("lego2z");
     hxz_Point->GetXaxis()->SetTitle("X (cm)");
     hxz_Point->GetYaxis()->SetTitle("Z (cm)");
     
     TCanvas* c9 = new TCanvas("Collides 3D Petals","Collides 3D (x,y,z)",0,0,400,800);
     c9->SetFillColor(0);
     c9->SetFrameFillColor(0);
-    hxyz_Point->Draw("");
-    hxyz_Point->SetMarkerStyle(20);
-    hxyz_Point->SetMarkerSize(0.4);
+    hxyz_Point->Draw("colz");
+    //hxyz_Point->SetMarkerStyle(20);
+    //hxyz_Point->SetMarkerSize(0.4);
     hxyz_Point->SetMarkerColor(9);
     hxyz_Point->GetXaxis()->SetTitle("X (cm)");
     hxyz_Point->GetZaxis()->SetTitle("Z (cm)");
     hxyz_Point->GetYaxis()->SetTitle("Y (cm)");
     
     //HPGePoint & CrystalPoint at the same time
-    TCanvas* c10 = new TCanvas("Collides3D both det","Collides 3D of both detectors",0,0,400,800);
+    /*TCanvas* c10 = new TCanvas("Collides3D both det","Collides 3D of both detectors",0,0,400,800);
     c10->SetFillColor(0);
     c10->SetFrameFillColor(0);
     hxyz_both->Draw();
@@ -795,7 +796,41 @@ void checkResults() {
     h1_Cal->Draw();	c11->cd(4)->SetLogy();
     h1_Cal->SetLineColor(kOrange);
     h1_Cal->GetXaxis()->SetTitle("Calo Energy (MeV)");
+    h1_Cal->GetYaxis()->SetTitle("Counts");*/
+
+		TCanvas* c_sum = new TCanvas("Energies of the Detectors","",0,0,400,800);
+    c_sum->SetFillColor(0);
+    c_sum->SetFrameFillColor(0);
+		h1_Cal->Draw();c_sum->SetLogy();
+		h1_Cal->SetLineColor(9);
+    h1_Cal->GetXaxis()->SetTitle("Energy (MeV)");
     h1_Cal->GetYaxis()->SetTitle("Counts");
+		h1_Cal->GetYaxis()->SetRangeUser(0.1,15000);
+		h_Ge->Draw("same");
+
+		TCanvas* c_1 = new TCanvas("Energy2","",0,0,400,800);
+    c_1->SetFillColor(0);
+    c_1->SetFrameFillColor(0);
+		h1_Cal->Draw();
+		h1_Cal->SetLineColor(9);
+    h1_Cal->GetXaxis()->SetTitle("Energy (MeV)");
+    h1_Cal->GetYaxis()->SetTitle("Counts");
+
+		TCanvas* c_2 = new TCanvas("Energy","",0,0,400,800);
+    c_2->SetFillColor(0);
+    c_2->SetFrameFillColor(0);
+		h_Ge->Draw();
+		h_Ge->SetLineColor(9);
+    h_Ge->GetXaxis()->SetTitle("Energy (MeV)");
+    h_Ge->GetYaxis()->SetTitle("Counts");
+
+		/*TCanvas* c_6 = new TCanvas("CrystalHit","",0,0,720,900);
+    c_6->SetFillColor(0);
+    c_6->SetFrameFillColor(0);
+    h1_Cry->Draw(); 
+    h1_Cry->SetLineColor(6);
+    h1_Cry->GetXaxis()->SetTitle("Crystal ID");
+    h1_Cry->GetYaxis()->SetTitle("Counts");*/
     
   }
   

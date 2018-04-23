@@ -41,8 +41,8 @@ void runsim() {
   // Gamma-200keV cascade generator: "Gamma_AngularC_200k"
   // TString fGene="box";
   //TString fGene="Sicascade";
-  //TString fGene="SiOneCascade";
-  TString fGene="Cocascade";
+  TString fGene="SiOneCascade";
+  //TString fGene="Cocascade";
   //TString fGene="Gamma_AngularC_200k";
 
 
